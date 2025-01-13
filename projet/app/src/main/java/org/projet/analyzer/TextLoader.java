@@ -16,10 +16,10 @@ public class TextLoader {
         System.out.println("Analyse du fichier : " + filePath.getFileName());
         
         // Créer l'analyseur d'accents
-        AccentAnalyzer accentAnalyzer = new AccentAnalyzer(analyzer);
+       // AccentAnalyzer accentAnalyzer = new AccentAnalyzer(analyzer);
         
         // Analyser les caractères individuels et les séquences de touches
-        accentAnalyzer.analyzeAccentedText(content);
+       // accentAnalyzer.analyzeAccentedText(content);
     }
     
    
