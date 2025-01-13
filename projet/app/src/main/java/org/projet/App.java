@@ -122,13 +122,17 @@ public class App {
     private static void saveFrequenciesToFile(TextAnalyzer analyzer, String filename, int ngramLength) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             Map<String, Long> frequencies = analyzer.getAllFrequencies();
+            long totalNGrams = frequencies.entrySet().stream()
+                .filter(entry -> entry.getKey().length() == ngramLength)
+                .mapToLong(Map.Entry::getValue)
+                .sum();
             
             // Trier les n-grammes par fréquence décroissante
             frequencies.entrySet().stream()
                 .filter(entry -> entry.getKey().length() == ngramLength)
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .forEach(entry -> {
-                    double percentage = (entry.getValue() * 100.0) / analyzer.getTotalCharacters();
+                    double percentage = (entry.getValue() * 100.0) / totalNGrams;
                     writer.printf("'%s' : %d (%.2f%%)\n",
                         entry.getKey(), entry.getValue(), percentage);
                 });

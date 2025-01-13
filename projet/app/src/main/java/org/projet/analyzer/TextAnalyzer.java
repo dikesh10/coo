@@ -48,9 +48,28 @@ public class TextAnalyzer {
      * @param text Le texte à analyser
      */
     public void analyzeText(String text) {
-        // Créer un AccentAnalyzer pour convertir les caractères accentués
-        AccentAnalyzer accentAnalyzer = new AccentAnalyzer(this);
-        accentAnalyzer.analyzeAccentedText(text);
+        // Analyse directe du texte sans conversion des accents
+        synchronized(result) {
+            // Update total characters
+            result.addToTotalCharacters(text.length());
+            
+            // Analyse des caractères individuels
+            for (int i = 0; i < text.length(); i++) {
+                result.incrementNGramCount(String.valueOf(text.charAt(i)));
+            }
+
+            // Analyse des bigrammes
+            for (int i = 0; i < text.length() - 1; i++) {
+                String bigram = text.substring(i, i + 2);
+                result.incrementNGramCount(bigram);
+            }
+
+            // Analyse des trigrammes
+            for (int i = 0; i < text.length() - 2; i++) {
+                String trigram = text.substring(i, i + 3);
+                result.incrementNGramCount(trigram);
+            }
+        }
     }
 
     /**
@@ -58,32 +77,27 @@ public class TextAnalyzer {
      * Cette méthode est utilisée en interne par AccentAnalyzer.
      */
     void analyzeKeyStrokes(List<String> keyStrokes) {
-        // Update total characters without resetting
-        result.addToTotalCharacters(keyStrokes.size());
+        // Convertir la liste de touches en texte pour l'analyse des n-grammes
+        String text = String.join("", keyStrokes);
         
-        // Analyse des caractères individuels de manière thread-safe
-        synchronized(result) {
-            for (String keystroke : keyStrokes) {
-                result.incrementNGramCount(keystroke);
-            }
+        // Update total characters without resetting
+        result.addToTotalCharacters(text.length());
+        
+        // Analyse des caractères individuels (unigrams)
+        for (int i = 0; i < text.length(); i++) {
+            result.incrementNGramCount(String.valueOf(text.charAt(i)));
+        }
 
-            // Analyse des bigrammes
-            StringBuilder bigramBuilder = new StringBuilder();
-            for (int i = 0; i < keyStrokes.size() - 1; i++) {
-                bigramBuilder.setLength(0);
-                bigramBuilder.append(keyStrokes.get(i)).append(keyStrokes.get(i + 1));
-                result.incrementNGramCount(bigramBuilder.toString());
-            }
+        // Analyse des bigrammes
+        for (int i = 0; i < text.length() - 1; i++) {
+            String bigram = text.substring(i, i + 2);
+            result.incrementNGramCount(bigram);
+        }
 
-            // Analyse des trigrammes
-            StringBuilder trigramBuilder = new StringBuilder();
-            for (int i = 0; i < keyStrokes.size() - 2; i++) {
-                trigramBuilder.setLength(0);
-                trigramBuilder.append(keyStrokes.get(i))
-                             .append(keyStrokes.get(i + 1))
-                             .append(keyStrokes.get(i + 2));
-                result.incrementNGramCount(trigramBuilder.toString());
-            }
+        // Analyse des trigrammes
+        for (int i = 0; i < text.length() - 2; i++) {
+            String trigram = text.substring(i, i + 3);
+            result.incrementNGramCount(trigram);
         }
     }
 
