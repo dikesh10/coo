@@ -1,0 +1,32 @@
+Java est un langage de programmation de haut niveau orienté objet créé par James Gosling et Patrick Naughton, employés de Sun Microsystems, avec le soutien de Bill Joy (cofondateur de Sun Microsystems en 1982), présenté officiellement le 23 mai 1995 au SunWorld.
+
+La société Sun est rachetée en 2009 par la société Oracle qui détient et maintient désormais Java.
+
+Un logiciel écrit en langage Java a pour particularité d'être compilé vers un code intermédiaire formé de bytecodes qui peut être exécuté dans une machine virtuelle Java (JVM) en faisant abstraction du système d'exploitation.
+
+Java 23 est officiellement disponible depuis le 17 septembre 2024. Cette version fait suite à la LTS Java 21, et précède la prochaine LTS attendue, Java 25, prévue pour septembre 20254.
+
+Aperçu
+Le langage Java reprend en grande partie la syntaxe du langage C++. Néanmoins, Java est épuré des concepts les plus subtils du C++ et à la fois les plus déroutants, tels que les pointeurs et références, ou l’héritage multiple contourné par l’implémentation des interfaces. De même, depuis la version 8, l'arrivée des interfaces fonctionnelles introduit l'héritage multiple (sans la gestion des attributs) avec ses avantages et inconvénients tels que l'héritage en diamant. Les concepteurs ont privilégié l’approche orientée objet de sorte qu’en Java, tout est objet à l’exception des types primitifs (nombres entiers, nombres à virgule flottante, etc.) qui ont cependant leurs variantes qui héritent de l'objet Object (Integer, Float, Double, etc.).
+
+Java permet de développer des applications client-serveur. Côté client, les applets sont à l’origine de la notoriété du langage. C’est surtout côté serveur que Java s’est imposé dans le milieu de l’entreprise grâce aux servlets, le pendant serveur des applets, et plus récemment les JavaServer Pages (JSP) qui peuvent se substituer à PHP, Active Server Pages (ASP) et ASP.NET.
+
+Java donne naissance à un système d'exploitation (JavaOS), à des environnements de développement (Eclipse/Java Development Kit), l'Environnement d'exécution Java (JRE), des machines virtuelles (MSJVM (en), applicatives multiplateforme (JVM), une déclinaison pour les périphériques mobiles/embarqués (J2ME), une bibliothèque de conception d'interface graphique (AWT/Swing), des applications lourdes (Jude, Oracle SQL Worksheet, etc.), des technologies web (servlets, applets) et une déclinaison pour l'entreprise (J2EE). La portabilité du bytecode Java est assurée par la machine virtuelle Java, et éventuellement par des bibliothèques standard incluses dans un JRE. Cette machine virtuelle peut interpréter le bytecode ou la compilation à la volée en langage machine. La portabilité est dépendante de la qualité de portage des JVM sur chaque OS.
+
+Historique
+Origine du langage
+Le langage Java est issu d’un projet de Sun Microsystems datant de 1990 : l’ingénieur Patrick Naughton n’était pas satisfait par le langage C++ utilisé chez Sun, ses interfaces de programmation en langage C, ainsi que les outils associés. Alors qu’il envisageait une migration vers NeXT, on lui proposa de travailler sur une nouvelle technologie et c’est ainsi que le Projet Stealth (furtif) vit le jour.
+
+Le Projet Stealth fut rapidement rebaptisé Green Project avec l’arrivée de James Gosling et de Mike Sheridan. Ensemble, aidés par d’autres ingénieurs, ils commencèrent à travailler dans un bureau de la rue Sand Hill à Menlo Park en Californie. Ils essayèrent d’élaborer une technologie pour le développement d’applications d’une nouvelle génération, offrant à Sun la perspective d’opportunités uniques.
+
+L’équipe envisageait initialement d’utiliser le langage C++, mais l’abandonna pour différentes raisons. Tout d’abord, ils développaient sur un système embarqué avec des ressources limitées et estimaient que l’utilisation du C++ demandait un investissement trop important et que cette complexité était une source d’erreur pour les développeurs. L'absence de ramasse-miettes impliquait que la gestion de la mémoire devait être programmée manuellement, un défi mais aussi une source d’erreurs.
+
+L’équipe était également insatisfaite des lacunes du langage C++ au niveau de la sécurité, de la programmation distribuée, du multi-threading. De plus, ils voulaient une plateforme qui puisse être portée sur tout type d’appareils ou de plateformes.
+
+Bill Joy avait envisagé un nouveau langage combinant le meilleur du langage de programmation Mesa (en) et du langage C. Dans un article appelé Plus loin (Further), il proposa à Sun que ses ingénieurs développent un environnement orienté objet basé sur le langage C++. À l’origine, Gosling envisageait de modifier et d’améliorer le langage C++, qu’il appelait C++ ++ --, mais l’idée fut bientôt abandonnée au profit du développement d’un nouveau langage de programmation qu’ils appelèrent Oak (chêne) en référence, selon la légende, à un arbre planté devant la fenêtre de leur bureau[réf. souhaitée].
+
+À l’été 1992, ils furent capables de faire une démonstration constituée d'une plateforme incluant le système d’exploitation Green[réf. souhaitée], le langage Oak (1992), les bibliothèques et le matériel. Leur première réalisation, présentée le 3 septembre 1992, fut la construction d’un PDA appelé Star7 ayant une interface graphique et un agent intelligent appelé Duke pour prêter assistance à l’utilisateur.
+
+En novembre de la même année, le Green Project fut abandonné pour devenir FirstPerson, Inc, appartenant en totalité à Sun Microsystems et l’équipe fut relocalisée à Palo Alto. L’équipe FirstPerson était intéressée par la construction d’outils hautement interactifs et quand Time Warner publia un appel d’offres en faveur d’un décodeur multifonctions, FirstPerson changea d’objectif pour proposer une telle plateforme.
+
+Cependant, l’industrie de la télévision par câble trouva qu’elle offrait trop de possibilités à l’utilisateur et FirstPerson perdit le marché au profit de Silicon Graphics. Incapable d’intéresser l’industrie audiovisuelle, la société fut réintégrée au sein de Sun.

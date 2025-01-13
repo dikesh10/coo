@@ -1,0 +1,116 @@
+@startuml
+
+package org.projet.analyzer {
+    class TextAnalyzer {
+        + analyze(text: String): AnalysisResult
+        + getBigramFrequencies(): Map<String, Integer>
+    }
+    
+    class AnalysisResult {
+        - characterFrequencies: Map<Character, Integer>
+        - bigramFrequencies: Map<String, Integer>
+        + getCharacterFrequencies(): Map
+        + getBigramFrequencies(): Map
+    }
+    
+    class TextLoader {
+        + loadText(path: String): String
+        + loadTexts(directory: String): List<String>
+    }
+    
+    class AccentAnalyzer {
+        + analyzeAccents(text: String): Map
+        + getAccentedCharacters(): Set<Character>
+    }
+}
+
+package org.projet.evaluator {
+    class LayoutEvaluator {
+        - movementEvaluator: MovementEvaluator
+        + evaluate(layout: KeyboardLayout, text: String): double
+        + evaluateMovements(): double
+    }
+    
+    class MovementEvaluator {
+        - detector: MovementDetector
+        + evaluate(movements: List<Movement>): double
+        + calculateDistance(): double
+    }
+    
+    class MovementDetector {
+        + detectMovements(text: String, layout: KeyboardLayout): List<Movement>
+    }
+    
+    enum MovementType {
+        SAME_FINGER
+        SAME_HAND
+        HAND_ALTERNATION
+    }
+    
+    class Movement {
+        - from: KeyPosition
+        - to: KeyPosition
+        - type: MovementType
+    }
+}
+
+package org.projet.model {
+    class KeyboardLayout {
+        - layout: Map<Character, KeyPosition>
+        + getPosition(character: Character): KeyPosition
+        + setKey(character: Character, position: KeyPosition)
+    }
+    
+    class KeyPosition {
+        - row: int
+        - column: int
+        - finger: Finger
+        + getDistance(other: KeyPosition): double
+    }
+    
+    enum Finger {
+        THUMB
+        INDEX
+        MIDDLE
+        RING
+        PINKY
+    }
+    
+    enum Hand {
+        LEFT
+        RIGHT
+    }
+}
+
+package org.projet.optimizer {
+    class KeyboardOptimizer {
+        - evaluator: LayoutEvaluator
+        + optimize(initialLayout: KeyboardLayout): KeyboardLayout
+        + mutateLayout(layout: KeyboardLayout): KeyboardLayout
+    }
+}
+
+package org.projet.config {
+    class KeyboardConfigLoader {
+        + loadConfig(path: String): KeyboardConfig
+    }
+    
+    class KeyboardConfig {
+        - layout: Map<String, Object>
+        + getLayout(): Map
+    }
+}
+
+' Relationships
+TextAnalyzer --> AnalysisResult
+LayoutEvaluator --> MovementEvaluator
+MovementEvaluator --> MovementDetector
+MovementDetector --> Movement
+Movement --> MovementType
+KeyboardLayout --> KeyPosition
+KeyPosition --> Finger
+Finger --> Hand
+KeyboardOptimizer --> LayoutEvaluator
+KeyboardConfigLoader --> KeyboardConfig
+
+@enduml
