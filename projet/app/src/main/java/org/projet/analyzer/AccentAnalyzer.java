@@ -45,18 +45,54 @@ public class AccentAnalyzer {
             }
         });
 
-        // Caractères nécessitant une touche morte (^)
-        keySequences.put('â', DEAD_CIRCUMFLEX + "a");
-        keySequences.put('ê', DEAD_CIRCUMFLEX + "e");
-        keySequences.put('î', DEAD_CIRCUMFLEX + "i");
-        keySequences.put('ô', DEAD_CIRCUMFLEX + "o");
-        keySequences.put('û', DEAD_CIRCUMFLEX + "u");
-
-        // Caractères nécessitant une touche morte (¨)
-        keySequences.put('ë', DEAD_DIAERESIS + "e");
-        keySequences.put('ï', DEAD_DIAERESIS + "i");
-        keySequences.put('ü', DEAD_DIAERESIS + "u");
-        keySequences.put('ÿ', DEAD_DIAERESIS + "y");
+        // Ajouter les séquences spécifiques selon la disposition
+        if (keyboardLayout.name().equals("AZERTY")) {
+            // Séquences pour AZERTY
+            keySequences.put('â', DEAD_CIRCUMFLEX + "a");
+            keySequences.put('ê', DEAD_CIRCUMFLEX + "e");
+            keySequences.put('î', DEAD_CIRCUMFLEX + "i");
+            keySequences.put('ô', DEAD_CIRCUMFLEX + "o");
+            keySequences.put('û', DEAD_CIRCUMFLEX + "u");
+            keySequences.put('ë', DEAD_DIAERESIS + "e");
+            keySequences.put('ï', DEAD_DIAERESIS + "i");
+            keySequences.put('ü', DEAD_DIAERESIS + "u");
+        } else if (keyboardLayout.name().equals("QWERTY")) {
+            // Séquences pour QWERTY US International
+            final String ACUTE = "´";      // Touche morte accent aigu
+            final String GRAVE = "`";      // Touche morte accent grave
+            
+            // Accents aigus
+            keySequences.put('é', ACUTE + "e");
+            keySequences.put('á', ACUTE + "a");
+            keySequences.put('í', ACUTE + "i");
+            keySequences.put('ó', ACUTE + "o");
+            keySequences.put('ú', ACUTE + "u");
+            
+            // Accents graves
+            keySequences.put('è', GRAVE + "e");
+            keySequences.put('à', GRAVE + "a");
+            keySequences.put('ì', GRAVE + "i");
+            keySequences.put('ò', GRAVE + "o");
+            keySequences.put('ù', GRAVE + "u");
+            
+            // Accents circonflexes
+            keySequences.put('â', DEAD_CIRCUMFLEX + "a");
+            keySequences.put('ê', DEAD_CIRCUMFLEX + "e");
+            keySequences.put('î', DEAD_CIRCUMFLEX + "i");
+            keySequences.put('ô', DEAD_CIRCUMFLEX + "o");
+            keySequences.put('û', DEAD_CIRCUMFLEX + "u");
+            
+            // Trémas
+            keySequences.put('ë', DEAD_DIAERESIS + "e");
+            keySequences.put('ï', DEAD_DIAERESIS + "i");
+            keySequences.put('ü', DEAD_DIAERESIS + "u");
+            
+            // Caractères spéciaux qui nécessitent AltGr ou Alt sur QWERTY US International
+            keySequences.put('€', ALTGR + "5");
+            keySequences.put('£', ALTGR + "4");
+            keySequences.put('¢', ALTGR + "c");
+            keySequences.put('ñ', DEAD_DIAERESIS + "n");
+        }
     }
 
     /**

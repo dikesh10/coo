@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Utility class to load and save keyboard configurations.
@@ -33,7 +34,7 @@ public class KeyboardConfigLoader {
             
             // Convertir la configuration en KeyboardLayout
             Map<Character, Key> keyMap = config.keys().entrySet().stream()
-                .collect(java.util.stream.Collectors.toMap(
+                .collect(Collectors.toMap(
                     Map.Entry::getKey,
                     e -> new Key(
                         e.getValue().row(),
@@ -49,7 +50,7 @@ public class KeyboardConfigLoader {
             return Optional.of(new KeyboardLayout(config.name(), keyMap));
             
         } catch (Exception e) {
-            System.err.println("Failed to load keyboard config: " + e.getMessage());
+            e.printStackTrace();
             return Optional.empty();
         }
     }

@@ -35,11 +35,51 @@ public class App {
             // Charger et analyser tous les fichiers en parallèle
             List<String> texts = TextLoader.loadFromDirectory(textsDir);
             
-            // Charger la disposition AZERTY
+            // Gérer le choix de la disposition
+            int choice;
+            if (args.length > 0) {
+                try {
+                    choice = Integer.parseInt(args[0]);
+                    if (choice != 1 && choice != 2) {
+                        System.out.println("Argument invalide. Utilisation : 1 pour AZERTY, 2 pour QWERTY");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Argument invalide. Utilisation : 1 pour AZERTY, 2 pour QWERTY");
+                    return;
+                }
+            } else {
+                // Interface interactive si aucun argument n'est fourni
+                System.out.println("\nChoisissez la disposition du clavier :");
+                System.out.println("1. AZERTY");
+                System.out.println("2. QWERTY");
+                
+                java.util.Scanner scanner = new java.util.Scanner(System.in);
+                choice = 0;
+                boolean validInput = false;
+                
+                while (!validInput) {
+                    System.out.print("\nEntrez votre choix (1 ou 2) : ");
+                    try {
+                        String input = scanner.nextLine().trim();
+                        choice = Integer.parseInt(input);
+                        if (choice == 1 || choice == 2) {
+                            validInput = true;
+                        } else {
+                            System.out.println("Veuillez entrer 1 ou 2.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Veuillez entrer un nombre valide.");
+                    }
+                }
+            }
+            
+            // Charger la disposition choisie
             KeyboardConfigLoader configLoader = new KeyboardConfigLoader();
+            String layoutFile = choice == 1 ? "layouts/azerty.json" : "layouts/qwerty.json";
             var layoutOpt = configLoader.loadLayout(
                 Path.of(App.class.getClassLoader()
-                    .getResource("layouts/azerty.json")
+                    .getResource(layoutFile)
                     .toURI())
             );
             
@@ -48,6 +88,7 @@ public class App {
             }
             
             var layout = layoutOpt.get();
+            System.out.println("\nDisposition " + layout.name() + " chargée avec succès.");
             TextAnalyzer analyzer = new TextAnalyzer(layout);
             analyzer.analyzeTexts(texts);
             

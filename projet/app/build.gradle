@@ -42,6 +42,22 @@ application {
     mainClass = 'org.projet.App'
 }
 
+// Configuration pour les arguments en ligne de commande
+run {
+    standardInput = System.in
+    if (project.hasProperty('args')) {
+        args project.getProperty('args').split(',')
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'org.projet.App'
+        )
+    }
+}
+
 test {
     useJUnitPlatform()
 }
