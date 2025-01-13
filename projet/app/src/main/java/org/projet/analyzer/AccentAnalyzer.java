@@ -1,5 +1,7 @@
 package org.projet.analyzer;
 
+import org.projet.model.KeyboardLayout;
+import org.projet.model.KeyboardLayout.Key;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
@@ -9,93 +11,52 @@ import java.util.List;
  * Classe pour analyser les caractères accentués et leurs séquences de touches.
  */
 public class AccentAnalyzer {
-    private final Map<Character, String> keySequences;
     private final TextAnalyzer textAnalyzer;
+    private final Map<Character, String> keySequences;
+    private final KeyboardLayout keyboardLayout;
+
     private static final String SHIFT = "⇧";  // Symbole pour la touche Shift
     private static final String ALTGR = "⌥";  // Symbole pour la touche AltGr
     private static final String ALT = "⎇";    // Symbole pour la touche Alt
+    private static final String DEAD_CIRCUMFLEX = "^";  // Touche morte pour les accents circonflexes
+    private static final String DEAD_DIAERESIS = "¨";  // Touche morte pour les trémas
 
-    public AccentAnalyzer(TextAnalyzer textAnalyzer) {
+    public AccentAnalyzer(TextAnalyzer textAnalyzer, KeyboardLayout keyboardLayout) {
         this.textAnalyzer = textAnalyzer;
+        this.keyboardLayout = keyboardLayout;
         this.keySequences = new HashMap<>();
         initializeKeySequences();
     }
 
     private void initializeKeySequences() {
-        // Accents circonflexes
-        keySequences.put('â', "^a");
-        keySequences.put('ê', "^e");
-        keySequences.put('î', "^i");
-        keySequences.put('ô', "^o");
-        keySequences.put('û', "^u");
+        // Parcourir toutes les touches du clavier
+        keyboardLayout.getKeys().forEach((character, key) -> {
+            // Caractère de base
+            keySequences.put(character, String.valueOf(character));
 
-        // Accents aigus
-        keySequences.put('é', "´e");
-        keySequences.put('á', "´a");
-        keySequences.put('í', "´i");
-        keySequences.put('ó', "´o");
-        keySequences.put('ú', "´u");
+            // Caractère avec Shift si disponible
+            if (key.shiftProduces() != null) {
+                keySequences.put(key.shiftProduces(), SHIFT + character);
+            }
 
-        // Accents graves
-        keySequences.put('à', "`a");  // Séquence accent grave + a
-        keySequences.put('è', "`e");
-        keySequences.put('ì', "`i");
-        keySequences.put('ò', "`o");
-        keySequences.put('ù', "`u");
+            // Caractère avec AltGr si disponible
+            if (key.altgrProduces() != null) {
+                keySequences.put(key.altgrProduces(), ALTGR + character);
+            }
+        });
 
-        // Tréma
-        keySequences.put('ë', "¨e");
-        keySequences.put('ï', "¨i");
-        keySequences.put('ü', "¨u");
-        keySequences.put('ÿ', "¨y");
+        // Caractères nécessitant une touche morte (^)
+        keySequences.put('â', DEAD_CIRCUMFLEX + "a");
+        keySequences.put('ê', DEAD_CIRCUMFLEX + "e");
+        keySequences.put('î', DEAD_CIRCUMFLEX + "i");
+        keySequences.put('ô', DEAD_CIRCUMFLEX + "o");
+        keySequences.put('û', DEAD_CIRCUMFLEX + "u");
 
-        // Cédille
-        keySequences.put('ç', "c,");
-
-        // Chiffres (nécessitent Shift sur AZERTY)
-        keySequences.put('1', SHIFT + "&");
-        keySequences.put('2', SHIFT + "é");
-        keySequences.put('3', SHIFT + "\"");
-        keySequences.put('4', SHIFT + "'");
-        keySequences.put('5', SHIFT + "(");
-        keySequences.put('6', SHIFT + "-");
-        keySequences.put('7', SHIFT + "è");
-        keySequences.put('8', SHIFT + "_");
-        keySequences.put('9', SHIFT + "ç");
-        keySequences.put('0', SHIFT + "à");
-
-        // Caractères spéciaux nécessitant Shift
-        keySequences.put('§', SHIFT + "!");
-        keySequences.put('/', SHIFT + ":");
-        keySequences.put('*', SHIFT + "$");
-        keySequences.put('+', SHIFT + "=");
-        keySequences.put('?', SHIFT + ",");
-        keySequences.put('>', SHIFT + ".");
-        keySequences.put('<', SHIFT + ",");
-        keySequences.put('£', SHIFT + "$");
-
-        // Caractères avec AltGr
-        keySequences.put('€', ALTGR + "E");
-        keySequences.put('#', ALTGR + "\"");
-        keySequences.put('{', ALTGR + "'");
-        keySequences.put('}', ALTGR + "=");
-        keySequences.put('[', ALTGR + "(");
-        keySequences.put(']', ALTGR + ")");
-        keySequences.put('|', ALTGR + "-");
-        keySequences.put('\\', ALTGR + "_");
-        keySequences.put('@', ALTGR + "à");
-        keySequences.put('~', ALTGR + "é");
-        keySequences.put('¤', ALTGR + "$");
-
-        // Caractères avec Alt
-        keySequences.put('æ', ALT + "f");
-        keySequences.put('œ', ALT + "o");
-        keySequences.put('±', ALT + "+");
-        keySequences.put('≤', ALT + "<");
-        keySequences.put('≥', ALT + ">");
-        keySequences.put('÷', ALT + ":");
-        keySequences.put('×', ALT + "*");
-        keySequences.put('≠', ALT + "=");
+        // Caractères nécessitant une touche morte (¨)
+        keySequences.put('ë', DEAD_DIAERESIS + "e");
+        keySequences.put('ï', DEAD_DIAERESIS + "i");
+        keySequences.put('ü', DEAD_DIAERESIS + "u");
+        keySequences.put('ÿ', DEAD_DIAERESIS + "y");
     }
 
     /**

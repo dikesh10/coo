@@ -12,11 +12,12 @@ public class KeyboardLayout {
     private final Map<Character, KeyPosition> characterToPosition;
     private final Map<KeyPosition, Character> positionToCharacter;
     private final String name;
+    private final Map<String, Key> keys;
 
     /**
      * Crée une nouvelle disposition de clavier.
      */
-    public KeyboardLayout(Map<Character, KeyPosition> layout, String name) {
+    public KeyboardLayout(Map<Character, KeyPosition> layout, String name, Map<String, Key> keys) {
         this.characterToPosition = Collections.unmodifiableMap(new HashMap<>(layout));
         
         // Créer la map inverse
@@ -25,6 +26,7 @@ public class KeyboardLayout {
         this.positionToCharacter = Collections.unmodifiableMap(inverse);
         
         this.name = name;
+        this.keys = Collections.unmodifiableMap(keys);
     }
 
     /**
@@ -53,5 +55,13 @@ public class KeyboardLayout {
      */
     public Map<Character, KeyPosition> getAllPositions() {
         return characterToPosition;
+    }
+
+    /**
+     * Retourne la map des touches du clavier.
+     * @return Map des touches avec leur caractère comme clé
+     */
+    public Map<String, Key> getKeys() {
+        return keys;
     }
 }

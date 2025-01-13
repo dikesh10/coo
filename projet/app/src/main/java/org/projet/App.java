@@ -3,6 +3,7 @@ package org.projet;
 import org.projet.analyzer.TextAnalyzer;
 import org.projet.analyzer.TextLoader;
 import org.projet.evaluator.LayoutEvaluator;
+import org.projet.keyboard.model.KeyboardLayout;
 import org.projet.config.KeyboardConfigLoader;
 import org.projet.optimizer.KeyboardOptimizer;
 
@@ -22,9 +23,6 @@ public class App {
         System.out.println("=== Analyseur et Optimiseur de Disposition Clavier ===\n");
         
         try {
-            // Créer l'analyseur
-            TextAnalyzer analyzer = new TextAnalyzer();
-            
             // Obtenir le chemin des ressources
             var textsResource = App.class.getClassLoader().getResource("texts");
             if (textsResource == null) {
@@ -36,6 +34,21 @@ public class App {
             
             // Charger et analyser tous les fichiers en parallèle
             List<String> texts = TextLoader.loadFromDirectory(textsDir);
+            
+            // Charger la disposition AZERTY
+            KeyboardConfigLoader configLoader = new KeyboardConfigLoader();
+            var layoutOpt = configLoader.loadLayout(
+                Path.of(App.class.getClassLoader()
+                    .getResource("layouts/azerty.json")
+                    .toURI())
+            );
+            
+            if (layoutOpt.isEmpty()) {
+                throw new IllegalStateException("Impossible de charger la disposition du clavier");
+            }
+            
+            var layout = layoutOpt.get();
+            TextAnalyzer analyzer = new TextAnalyzer(layout);
             analyzer.analyzeTexts(texts);
             
             // Afficher les résultats
@@ -54,54 +67,40 @@ public class App {
 
             System.out.println("\n===================");
             
-            // Charger la disposition AZERTY
-            KeyboardConfigLoader configLoader = new KeyboardConfigLoader();
-            var layoutOpt = configLoader.loadLayout(
-                Path.of(App.class.getClassLoader()
-                    .getResource("layouts/azerty.json")
-                    .toURI())
-            );
+            // Créer un Map des fréquences pour l'évaluateur
+            Map<String, Long> frequenciesForEvaluator = texts.stream()
+                .flatMap(text -> {
+                    var ngrams = new java.util.ArrayList<String>();
+                    // Caractères
+                    for (int i = 0; i < text.length(); i++) {
+                        ngrams.add(String.valueOf(text.charAt(i)));
+                    }
+                    // Bigrammes
+                    for (int i = 0; i < text.length() - 1; i++) {
+                        ngrams.add(text.substring(i, i + 2));
+                    }
+                    // Trigrammes
+                    for (int i = 0; i < text.length() - 2; i++) {
+                        ngrams.add(text.substring(i, i + 3));
+                    }
+                    return ngrams.stream();
+                })
+                .collect(Collectors.groupingBy(
+                    ngram -> ngram,
+                    Collectors.counting()
+                ));
             
-            if (layoutOpt.isPresent()) {
-                var layout = layoutOpt.get();
-                
-                // Créer un Map des fréquences pour l'évaluateur
-                Map<String, Long> frequenciesForEvaluator = texts.stream()
-                    .flatMap(text -> {
-                        var ngrams = new java.util.ArrayList<String>();
-                        // Caractères
-                        for (int i = 0; i < text.length(); i++) {
-                            ngrams.add(String.valueOf(text.charAt(i)));
-                        }
-                        // Bigrammes
-                        for (int i = 0; i < text.length() - 1; i++) {
-                            ngrams.add(text.substring(i, i + 2));
-                        }
-                        // Trigrammes
-                        for (int i = 0; i < text.length() - 2; i++) {
-                            ngrams.add(text.substring(i, i + 3));
-                        }
-                        return ngrams.stream();
-                    })
-                    .collect(Collectors.groupingBy(
-                        ngram -> ngram,
-                        Collectors.counting()
-                    ));
-                
-                // Évaluer la disposition initiale
-                LayoutEvaluator evaluator = new LayoutEvaluator(frequenciesForEvaluator);
-                evaluator.displayEvaluation(layout);
-                
-                // Optimiser la disposition
-                System.out.println("\nOptimisation de la disposition...");
-                KeyboardOptimizer optimizer = new KeyboardOptimizer(evaluator);
-                var optimizedLayout = optimizer.optimize(layout);
-                
-                System.out.println("\nDisposition optimisée :\n");
-                evaluator.displayEvaluation(optimizedLayout);
-            } else {
-                System.err.println("Impossible de charger la disposition AZERTY");
-            }
+            // Évaluer la disposition initiale
+            LayoutEvaluator evaluator = new LayoutEvaluator(frequenciesForEvaluator);
+            evaluator.displayEvaluation(layout);
+            
+            // Optimiser la disposition
+            System.out.println("\nOptimisation de la disposition...");
+            KeyboardOptimizer optimizer = new KeyboardOptimizer(evaluator);
+            var optimizedLayout = optimizer.optimize(layout);
+            
+            System.out.println("\nDisposition optimisée :\n");
+            evaluator.displayEvaluation(optimizedLayout);
             
             // Fermer proprement l'analyseur
             analyzer.shutdown();

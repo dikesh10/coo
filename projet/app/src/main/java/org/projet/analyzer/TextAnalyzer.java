@@ -1,5 +1,7 @@
 package org.projet.analyzer;
 
+import org.projet.model.KeyboardLayout;
+import org.projet.keyboard.model.Key;
 import java.util.Map;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -31,15 +33,17 @@ import java.util.stream.Collectors;
 public class TextAnalyzer {
     private final AnalysisResult result;
     private final ExecutorService executor;
+    private final KeyboardLayout keyboardLayout;
 
     /**
      * Constructeur initialisant les structures de données pour l'analyse.
      */
-    public TextAnalyzer() {
+    public TextAnalyzer(KeyboardLayout keyboardLayout) {
         this.result = new AnalysisResult();
         this.executor = Executors.newFixedThreadPool(
             Runtime.getRuntime().availableProcessors()
         );
+        this.keyboardLayout = keyboardLayout;
     }
 
     /**
@@ -49,7 +53,7 @@ public class TextAnalyzer {
      */
     public void analyzeText(String text) {
         // Créer un AccentAnalyzer pour convertir les caractères accentués
-        AccentAnalyzer accentAnalyzer = new AccentAnalyzer(this);
+        AccentAnalyzer accentAnalyzer = new AccentAnalyzer(this, keyboardLayout);
         accentAnalyzer.analyzeAccentedText(text);
     }
 
@@ -159,6 +163,14 @@ public class TextAnalyzer {
      */
     public void setTotalCharacters(long count) {
         result.setTotalCharacters(count);
+    }
+
+    /**
+     * Retourne la disposition du clavier utilisée pour l'analyse.
+     * @return La disposition du clavier
+     */
+    public KeyboardLayout getKeyboardLayout() {
+        return keyboardLayout;
     }
 
     /**

@@ -7,18 +7,32 @@ import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import org.projet.model.KeyboardLayout;
+import org.projet.model.KeyboardLayout.Key;
+import org.projet.model.KeyboardLayout.Finger;
 
 /**
  * Tests unitaires pour la classe TextAnalyzer.
  */
 public class TextAnalyzerTest {
     private TextAnalyzer analyzer;
+    private KeyboardLayout testLayout;
 
     @BeforeEach
     void setUp() {
-        analyzer = new TextAnalyzer();
+        // Créer une disposition de test simple
+        Map<Character, Key> keys = new HashMap<>();
+        keys.put('a', new Key(0, 0, Finger.LEFT_PINKY, null, null));
+        keys.put('e', new Key(0, 1, Finger.LEFT_RING, null, null));
+        keys.put('h', new Key(0, 2, Finger.LEFT_MIDDLE, null, null));
+        keys.put('l', new Key(0, 3, Finger.LEFT_INDEX, null, null));
+        keys.put('o', new Key(0, 4, Finger.RIGHT_INDEX, null, null));
+        
+        testLayout = new KeyboardLayout("TEST", keys);
+        analyzer = new TextAnalyzer(testLayout);
     }
 
     @AfterEach
