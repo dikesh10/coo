@@ -1,0 +1,363 @@
+{
+  "name": "QWERTY",
+  "description": "Standard US QWERTY layout with all special characters and key sequences",
+  "keys": {
+    "q": {
+      "row": 2,
+      "column": 0,
+      "finger": "LEFT_PINKY",
+      "shiftProduces": "Q",
+      "altgrProduces": null
+    },
+    "w": {
+      "row": 2,
+      "column": 1,
+      "finger": "LEFT_RING",
+      "shiftProduces": "W",
+      "altgrProduces": null
+    },
+    "e": {
+      "row": 2,
+      "column": 2,
+      "finger": "LEFT_MIDDLE",
+      "shiftProduces": "E",
+      "altgrProduces": "é"
+    },
+    "r": {
+      "row": 2,
+      "column": 3,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "R",
+      "altgrProduces": null
+    },
+    "t": {
+      "row": 2,
+      "column": 4,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "T",
+      "altgrProduces": null
+    },
+    "y": {
+      "row": 2,
+      "column": 5,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "Y",
+      "altgrProduces": null
+    },
+    "u": {
+      "row": 2,
+      "column": 6,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "U",
+      "altgrProduces": "ù"
+    },
+    "i": {
+      "row": 2,
+      "column": 7,
+      "finger": "RIGHT_MIDDLE",
+      "shiftProduces": "I",
+      "altgrProduces": null
+    },
+    "o": {
+      "row": 2,
+      "column": 8,
+      "finger": "RIGHT_RING",
+      "shiftProduces": "O",
+      "altgrProduces": null
+    },
+    "p": {
+      "row": 2,
+      "column": 9,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "P",
+      "altgrProduces": null
+    },
+    "a": {
+      "row": 1,
+      "column": 0,
+      "finger": "LEFT_PINKY",
+      "shiftProduces": "A",
+      "altgrProduces": "à"
+    },
+    "s": {
+      "row": 1,
+      "column": 1,
+      "finger": "LEFT_RING",
+      "shiftProduces": "S",
+      "altgrProduces": null
+    },
+    "d": {
+      "row": 1,
+      "column": 2,
+      "finger": "LEFT_MIDDLE",
+      "shiftProduces": "D",
+      "altgrProduces": null
+    },
+    "f": {
+      "row": 1,
+      "column": 3,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "F",
+      "altgrProduces": null
+    },
+    "g": {
+      "row": 1,
+      "column": 4,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "G",
+      "altgrProduces": null
+    },
+    "h": {
+      "row": 1,
+      "column": 5,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "H",
+      "altgrProduces": null
+    },
+    "j": {
+      "row": 1,
+      "column": 6,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "J",
+      "altgrProduces": null
+    },
+    "k": {
+      "row": 1,
+      "column": 7,
+      "finger": "RIGHT_MIDDLE",
+      "shiftProduces": "K",
+      "altgrProduces": null
+    },
+    "l": {
+      "row": 1,
+      "column": 8,
+      "finger": "RIGHT_RING",
+      "shiftProduces": "L",
+      "altgrProduces": null
+    },
+    ";": {
+      "row": 1,
+      "column": 9,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": ":",
+      "altgrProduces": null
+    },
+    "z": {
+      "row": 0,
+      "column": 0,
+      "finger": "LEFT_PINKY",
+      "shiftProduces": "Z",
+      "altgrProduces": null
+    },
+    "x": {
+      "row": 0,
+      "column": 1,
+      "finger": "LEFT_RING",
+      "shiftProduces": "X",
+      "altgrProduces": null
+    },
+    "c": {
+      "row": 0,
+      "column": 2,
+      "finger": "LEFT_MIDDLE",
+      "shiftProduces": "C",
+      "altgrProduces": "ç"
+    },
+    "v": {
+      "row": 0,
+      "column": 3,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "V",
+      "altgrProduces": null
+    },
+    "b": {
+      "row": 0,
+      "column": 4,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "B",
+      "altgrProduces": null
+    },
+    "n": {
+      "row": 0,
+      "column": 5,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "N",
+      "altgrProduces": null
+    },
+    "m": {
+      "row": 0,
+      "column": 6,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "M",
+      "altgrProduces": null
+    },
+    ",": {
+      "row": 0,
+      "column": 7,
+      "finger": "RIGHT_MIDDLE",
+      "shiftProduces": "<",
+      "altgrProduces": null
+    },
+    ".": {
+      "row": 0,
+      "column": 8,
+      "finger": "RIGHT_RING",
+      "shiftProduces": ">",
+      "altgrProduces": null
+    },
+    "/": {
+      "row": 0,
+      "column": 9,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "?",
+      "altgrProduces": null
+    },
+    "'": {
+      "row": 1,
+      "column": 10,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "\"",
+      "altgrProduces": null
+    },
+    "[": {
+      "row": 2,
+      "column": 10,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "{",
+      "altgrProduces": null
+    },
+    "]": {
+      "row": 2,
+      "column": 11,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "}",
+      "altgrProduces": null
+    },
+    "\\": {
+      "row": 2,
+      "column": 12,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "|",
+      "altgrProduces": null
+    },
+    "`": {
+      "row": 3,
+      "column": 0,
+      "finger": "LEFT_PINKY",
+      "shiftProduces": "~",
+      "altgrProduces": null
+    },
+    "1": {
+      "row": 3,
+      "column": 0,
+      "finger": "LEFT_PINKY",
+      "shiftProduces": "!",
+      "altgrProduces": null
+    },
+    "2": {
+      "row": 3,
+      "column": 1,
+      "finger": "LEFT_RING",
+      "shiftProduces": "@",
+      "altgrProduces": null
+    },
+    "3": {
+      "row": 3,
+      "column": 2,
+      "finger": "LEFT_MIDDLE",
+      "shiftProduces": "#",
+      "altgrProduces": null
+    },
+    "4": {
+      "row": 3,
+      "column": 3,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "$",
+      "altgrProduces": null
+    },
+    "5": {
+      "row": 3,
+      "column": 4,
+      "finger": "LEFT_INDEX",
+      "shiftProduces": "%",
+      "altgrProduces": null
+    },
+    "6": {
+      "row": 3,
+      "column": 5,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "^",
+      "altgrProduces": null
+    },
+    "7": {
+      "row": 3,
+      "column": 6,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "&",
+      "altgrProduces": null
+    },
+    "8": {
+      "row": 3,
+      "column": 7,
+      "finger": "RIGHT_MIDDLE",
+      "shiftProduces": "*",
+      "altgrProduces": null
+    },
+    "9": {
+      "row": 3,
+      "column": 8,
+      "finger": "RIGHT_RING",
+      "shiftProduces": "(",
+      "altgrProduces": null
+    },
+    "0": {
+      "row": 3,
+      "column": 9,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": ")",
+      "altgrProduces": null
+    },
+    "-": {
+      "row": 3,
+      "column": 10,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "_",
+      "altgrProduces": null
+    },
+    "=": {
+      "row": 3,
+      "column": 11,
+      "finger": "RIGHT_PINKY",
+      "shiftProduces": "+",
+      "altgrProduces": null
+    },
+    "é": {
+      "row": 2,
+      "column": 2,
+      "finger": "LEFT_MIDDLE",
+      "shiftProduces": "É",
+      "altgrProduces": null
+    },
+    "à": {
+      "row": 1,
+      "column": 0,
+      "finger": "LEFT_PINKY",
+      "shiftProduces": "À",
+      "altgrProduces": null
+    },
+    "ù": {
+      "row": 2,
+      "column": 6,
+      "finger": "RIGHT_INDEX",
+      "shiftProduces": "Ù",
+      "altgrProduces": null
+    },
+    "ç": {
+      "row": 0,
+      "column": 2,
+      "finger": "LEFT_MIDDLE",
+      "shiftProduces": "Ç",
+      "altgrProduces": null
+    }
+  }
+}
