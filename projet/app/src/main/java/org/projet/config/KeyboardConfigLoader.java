@@ -29,7 +29,7 @@ public class KeyboardConfigLoader {
      */
     public Optional<KeyboardLayout> loadLayout(Path configFile) {
         try {
-            KeyboardConfig config = mapper.readValue(configFile.toFile(), KeyboardConfig.class);
+           KeyboardConfig config = mapper.readValue(configFile.toFile(), KeyboardConfig.class);
             
             // Convertir la configuration en KeyboardLayout
             Map<Character, Key> keyMap = config.keys().entrySet().stream()
