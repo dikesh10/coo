@@ -1,3 +1,0 @@
-Les dispositions de clavier classiques comme AZERTY ou QWERTY ne sont plus vraiment adaptées aux usages modernes. 
-Une analyse statistique peut nous aider à concevoir des dispositions plus ergonomiques et efficaces.
-L'objectif est d'optimiser le placement des touches pour minimiser les mouvements des doigts et maximiser le confort de frappe.

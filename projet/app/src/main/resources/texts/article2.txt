@@ -1,7 +1,0 @@
-Test avec caractères spéciaux:
-àéèùç@#$%^&*(){}[]<>?/\|
-123456789
-Test ponctuation: ;:,.!?
-Symboles: €£¥§¶©®™
-Guillemets: «»""''
-Autres: œæ²³¹½¼¾
