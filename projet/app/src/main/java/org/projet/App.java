@@ -54,11 +54,25 @@ public class App {
 
             System.out.println("\n===================");
             
-            // Charger la disposition AZERTY
+            // Déterminer la disposition à utiliser
+            String layoutChoice = "azerty";  // Par défaut
+            if (args.length > 0) {
+                String arg = args[0].toLowerCase();
+                if (arg.equals("qwerty") || arg.equals("azerty")) {
+                    layoutChoice = arg;
+                } else {
+                    System.out.println("Disposition non reconnue. Utilisation d'AZERTY par défaut.");
+                }
+            } else {
+                System.out.println("Aucune disposition spécifiée. Utilisation d'AZERTY par défaut.");
+                System.out.println("Usage: ./gradlew run --args=\"qwerty\" ou ./gradlew run --args=\"azerty\"");
+            }
+            
+            // Charger la disposition choisie
             KeyboardConfigLoader configLoader = new KeyboardConfigLoader();
             var layoutOpt = configLoader.loadLayout(
                 Path.of(App.class.getClassLoader()
-                    .getResource("layouts/azerty.json")
+                    .getResource("layouts/" + layoutChoice + ".json")
                     .toURI())
             );
             
@@ -66,27 +80,7 @@ public class App {
                 var layout = layoutOpt.get();
                 
                 // Créer un Map des fréquences pour l'évaluateur
-                Map<String, Long> frequenciesForEvaluator = texts.stream()
-                    .flatMap(text -> {
-                        var ngrams = new java.util.ArrayList<String>();
-                        // Caractères
-                        for (int i = 0; i < text.length(); i++) {
-                            ngrams.add(String.valueOf(text.charAt(i)));
-                        }
-                        // Bigrammes
-                        for (int i = 0; i < text.length() - 1; i++) {
-                            ngrams.add(text.substring(i, i + 2));
-                        }
-                        // Trigrammes
-                        for (int i = 0; i < text.length() - 2; i++) {
-                            ngrams.add(text.substring(i, i + 3));
-                        }
-                        return ngrams.stream();
-                    })
-                    .collect(Collectors.groupingBy(
-                        ngram -> ngram,
-                        Collectors.counting()
-                    ));
+                Map<String, Long> frequenciesForEvaluator = analyzer.getAllFrequencies();
                 
                 // Évaluer la disposition initiale
                 LayoutEvaluator evaluator = new LayoutEvaluator(frequenciesForEvaluator);
@@ -100,7 +94,7 @@ public class App {
                 System.out.println("\nDisposition optimisée :\n");
                 evaluator.displayEvaluation(optimizedLayout);
             } else {
-                System.err.println("Impossible de charger la disposition AZERTY");
+                System.err.println("Impossible de charger la disposition " + layoutChoice.toUpperCase());
             }
             
             // Fermer proprement l'analyseur

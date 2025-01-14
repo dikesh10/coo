@@ -1,7 +1,6 @@
 package org.projet.optimizer;
 
 import org.projet.model.KeyboardLayout;
-import org.projet.model.KeyboardDisplay;
 import org.projet.evaluator.LayoutEvaluator;
 
 import java.util.*;
