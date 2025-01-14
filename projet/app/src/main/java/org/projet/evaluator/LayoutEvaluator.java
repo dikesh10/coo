@@ -109,6 +109,34 @@ public class LayoutEvaluator {
         
         double score = 0.0;
         
+        // Calculer les charges des doigts
+        Map<KeyboardLayout.Finger, Long> fingerCounts = new EnumMap<>(KeyboardLayout.Finger.class);
+        for (KeyboardLayout.Finger finger : KeyboardLayout.Finger.values()) {
+            fingerCounts.put(finger, 0L);
+        }
+        
+        // Compter les occurrences de chaque caractère
+        for (Map.Entry<String, Long> entry : ngramFrequencies.entrySet()) {
+            String ngram = entry.getKey();
+            if (ngram.length() == 1) {  // Uniquement les caractères individuels
+                KeyboardLayout.Key key = getKeyForCharacter(layout, ngram.charAt(0));
+                if (key != null) {
+                    fingerCounts.merge(key.finger(), entry.getValue(), Long::sum);
+                }
+            }
+        }
+        
+        // Calculer le total des caractères
+        long totalChars = fingerCounts.values().stream().mapToLong(Long::longValue).sum();
+        
+        // Calculer les pourcentages si le total n'est pas zéro
+        if (totalChars > 0) {
+            for (Map.Entry<KeyboardLayout.Finger, Long> entry : fingerCounts.entrySet()) {
+                double percentage = (entry.getValue() * 100.0) / totalChars;
+                fingerLoads.put(entry.getKey(), percentage);
+            }
+        }
+        
         // Évaluer les bigrammes
         for (Map.Entry<String, Long> entry : ngramFrequencies.entrySet()) {
             String ngram = entry.getKey();
