@@ -1,12 +1,12 @@
 package org.projet.analyzer;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-//djdjdj
 
 /**
- * Classe thread-safe pour stocker les résultats d'analyse de texte
+ * Classe thread-safe pour stocker les resultats d'analyse de texte
  */
 public class AnalysisResult {
     private final ConcurrentHashMap<String, AtomicLong> ngramFrequencies;
@@ -26,14 +26,14 @@ public class AnalysisResult {
     }
 
     /**
-     * Réinitialise le compteur total de caractères.
+     * Reinitialise le compteur total de caracteres.
      */
     public void resetTotalCharacters() {
         totalCharacters.set(0);
     }
 
     /**
-     * Définit le nombre total de caractères.
+     * Definit le nombre total de caracteres.
      */
     public void setTotalCharacters(long count) {
         totalCharacters.set(count);
@@ -49,18 +49,25 @@ public class AnalysisResult {
     }
 
     public Map<String, Long> getNGramFrequencies() {
-        return ngramFrequencies.entrySet().stream()
-            .collect(java.util.stream.Collectors.toMap(
-                Map.Entry::getKey,
-                e -> e.getValue().get()
-            ));
+        Map<String, Long> frequencies = new HashMap<>();
+        for (Map.Entry<String, AtomicLong> entry : ngramFrequencies.entrySet()) {
+            frequencies.put(entry.getKey(), entry.getValue().get());
+        }
+        return frequencies;
     }
 
     public void merge(AnalysisResult other) {
         other.ngramFrequencies.forEach((ngram, count) -> {
             ngramFrequencies.computeIfAbsent(ngram, k -> new AtomicLong(0))
-                .addAndGet(count.get());
+                    .addAndGet(count.get());
         });
         totalCharacters.addAndGet(other.getTotalCharacters());
     }
 }
+/*
+ * (l'insertion ou l'ajout d'elements) ne cree de probleme avec
+ * ConcurrentHashMap. Le pb survient lorsqu'il y a plusieurs threads qui
+ * essaient de fusionner (ajouter des valeurs) pour la même cle, ce qui peut
+ * entraîner des incoherences dans l'etat des donnees, même si chaque AtomicLong
+ * reste thread-safe individuellement.
+ */

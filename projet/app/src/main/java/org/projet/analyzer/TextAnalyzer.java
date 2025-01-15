@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
  * - Les fréquences de bigrammes (séquences de 2 caractères)
  * - Les fréquences de trigrammes (séquences de 3 caractères)
  * 
- * <p>Exemple d'utilisation :
+ * <p>
+ * Exemple d'utilisation :
+ * 
  * <pre>{@code
  * TextAnalyzer analyzer = new TextAnalyzer();
  * analyzer.analyzeText("texte");
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
  * @see TextLoader
  */
 public class TextAnalyzer {
+    // attention on aurait pu utiliser le pattern du singleton
     private final AnalysisResult result;
     private final ExecutorService executor;
 
@@ -38,21 +41,17 @@ public class TextAnalyzer {
     public TextAnalyzer() {
         this.result = new AnalysisResult();
         this.executor = Executors.newFixedThreadPool(
-            Runtime.getRuntime().availableProcessors()
-        );
+                Runtime.getRuntime().availableProcessors());
     }
 
     /**
      * Analyse un texte donné et met à jour les statistiques de manière thread-safe.
-     * 
-     * @param text Le texte à analyser
      */
     public void analyzeText(String text) {
-        // Analyse directe du texte sans conversion des accents
-        synchronized(result) {
+        synchronized (result) {
             // Update total characters
             result.addToTotalCharacters(text.length());
-            
+
             // Analyse des caractères individuels
             for (int i = 0; i < text.length(); i++) {
                 result.incrementNGramCount(String.valueOf(text.charAt(i)));
@@ -73,44 +72,18 @@ public class TextAnalyzer {
     }
 
     /**
-     * Analyse une séquence de touches individuelles.
-     * Cette méthode est utilisée en interne par AccentAnalyzer.
-     */
-    void analyzeKeyStrokes(List<String> keyStrokes) {
-        // Convertir la liste de touches en texte pour l'analyse des n-grammes
-        String text = String.join("", keyStrokes);
-        
-        // Update total characters without resetting
-        result.addToTotalCharacters(text.length());
-        
-        // Analyse des caractères individuels (unigrams)
-        for (int i = 0; i < text.length(); i++) {
-            result.incrementNGramCount(String.valueOf(text.charAt(i)));
-        }
-
-        // Analyse des bigrammes
-        for (int i = 0; i < text.length() - 1; i++) {
-            String bigram = text.substring(i, i + 2);
-            result.incrementNGramCount(bigram);
-        }
-
-        // Analyse des trigrammes
-        for (int i = 0; i < text.length() - 2; i++) {
-            String trigram = text.substring(i, i + 3);
-            result.incrementNGramCount(trigram);
-        }
-    }
-
-    /**
      * Analyse une liste de textes en parallèle.
      * 
      * @param texts Liste des textes à analyser
      */
     public void analyzeTexts(List<String> texts) {
         try {
+            // on soummet une tache + ajout immediat a la liste de future
+            // une référence à un résultat qui peut être disponible plus tard, mais qui
+            // n'est pas nécessairement disponible immédiatement.
             List<Future<?>> futures = texts.stream()
-                .map(text -> executor.submit(() -> analyzeText(text)))
-                .collect(Collectors.toList());
+                    .map(text -> executor.submit(() -> analyzeText(text)))
+                    .collect(Collectors.toList()); // rassembler les resultats dans une nouvelle liste
 
             // Attendre que toutes les tâches soient terminées
             for (Future<?> future : futures) {
@@ -139,7 +112,8 @@ public class TextAnalyzer {
      */
     public double getPercentage(String ngram) {
         long total = result.getTotalCharacters();
-        if (total == 0) return 0.0;
+        if (total == 0)
+            return 0.0;
         return (getFrequency(ngram) * 100.0) / total;
     }
 
@@ -154,6 +128,7 @@ public class TextAnalyzer {
 
     /**
      * Obtient toutes les fréquences des n-grammes.
+     * 
      * @return Une Map contenant les n-grammes et leurs fréquences
      */
     public Map<String, Long> getAllFrequencies() {
@@ -169,6 +144,7 @@ public class TextAnalyzer {
 
     /**
      * Définit le nombre total de caractères.
+     * 
      * @param count Le nouveau nombre total de caractères
      */
     public void setTotalCharacters(long count) {

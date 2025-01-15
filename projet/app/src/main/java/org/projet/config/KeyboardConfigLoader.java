@@ -16,11 +16,11 @@ import java.util.Optional;
  */
 public class KeyboardConfigLoader {
     private final ObjectMapper mapper;
-    
+
     public KeyboardConfigLoader() {
         this.mapper = new ObjectMapper();
     }
-    
+
     /**
      * Loads a keyboard configuration from a JSON file.
      *
@@ -29,31 +29,29 @@ public class KeyboardConfigLoader {
      */
     public Optional<KeyboardLayout> loadLayout(Path configFile) {
         try {
-           KeyboardConfig config = mapper.readValue(configFile.toFile(), KeyboardConfig.class);
-            
+            KeyboardLayout config = mapper.readValue(configFile.toFile(), KeyboardLayout.class);
+
             // Convertir la configuration en KeyboardLayout
-            Map<Character, Key> keyMap = config.keys().entrySet().stream()
-                .collect(java.util.stream.Collectors.toMap(
-                    Map.Entry::getKey,
-                    e -> new Key(
-                        e.getValue().row(),
-                        e.getValue().column(),
-                        Finger.valueOf(e.getValue().finger()),
-                        e.getValue().shiftProduces() != null ? 
-                            e.getValue().shiftProduces().charAt(0) : null,
-                        e.getValue().altgrProduces() != null ? 
-                            e.getValue().altgrProduces().charAt(0) : null
-                    )
-                ));
-            
+            Map<Character, Key> keyMap = config.characterToKeyMap().entrySet().stream()
+                    .collect(java.util.stream.Collectors.toMap(
+                            Map.Entry::getKey,
+                            e -> new Key(
+                                    e.getValue().row(),
+                                    e.getValue().column(),
+                                    Finger.valueOf(e.getValue().finger()),
+                                    e.getValue().shiftProduces() != null ? e.getValue().shiftProduces().charAt(0)
+                                            : null,
+                                    e.getValue().altgrProduces() != null ? e.getValue().altgrProduces().charAt(0)
+                                            : null)));
+
             return Optional.of(new KeyboardLayout(config.name(), keyMap));
-            
+
         } catch (Exception e) {
             System.err.println("Failed to load keyboard config: " + e.getMessage());
             return Optional.empty();
         }
     }
-    
+
     /**
      * Saves a keyboard configuration to a JSON file.
      *
@@ -61,7 +59,8 @@ public class KeyboardConfigLoader {
     public boolean saveLayout(KeyboardLayout layout, Path configFile) {
         try {
             // TODO: Implement the conversion from KeyboardLayout to KeyboardConfig
-            // This will be implemented once we have all the necessary data in KeyboardLayout
+            // This will be implemented once we have all the necessary data in
+            // KeyboardLayout
             throw new UnsupportedOperationException("Saving layouts not yet implemented");
         } catch (Exception e) {
             System.err.println("Failed to save keyboard config: " + e.getMessage());
